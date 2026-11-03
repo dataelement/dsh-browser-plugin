@@ -51,7 +51,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agentone666-ship-it/dsh-browser-plugin.git"
+    "url": "git+https://github.com/dataelement/dsh-browser-plugin.git"
   },
   "devDependencies": {
     "esbuild": "0.25.12",
@@ -74,8 +74,8 @@
       "optional": true
     }
   },
-  "homepage": "https://github.com/agentone666-ship-it/dsh-browser-plugin",
+  "homepage": "https://github.com/dataelement/dsh-browser-plugin",
   "bugs": {
-    "url": "https://github.com/agentone666-ship-it/dsh-browser-plugin/issues"
+    "url": "https://github.com/dataelement/dsh-browser-plugin/issues"
   }
 }

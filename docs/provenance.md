@@ -9,3 +9,7 @@
 - 附上必要的最小宿主标记补丁，不复制整个宿主补丁集。
 - GitHub 仓库默认私有；没有发布 npm 包、迁移已有安装或改变上游 PR。
 - 历史桌面结果不等于在独立仓库重新验证了全部平台。
+
+## 组织迁移
+
+2026-11-03：用户确认目标账号为 `agentone666-ship-it`。接受组织邀请并迁移到 `dataelement/dsh-browser-plugin`，保留私有可见性和已有提交历史。独立插件的权威仓库地址为 https://github.com/dataelement/dsh-browser-plugin 。
