@@ -1,0 +1,10 @@
+--- a/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js
++++ b/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js
+@@ -19144,6 +19144,7 @@
+ 												type: "button",
+ 												className: InputBar_module_css_default.primary,
+ 												"aria-label": primaryLabel,
++												"data-dsh-composer-primary": primaryStops ? "stop" : "send",
+ 												disabled: primaryDisabled,
+ 												onMouseDown: keepFocus,
+ 												onClick: onPrimary,
