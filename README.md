@@ -17,7 +17,17 @@
 
 需要 Node.js 22+，以及本机 Chrome、Edge 或 Chromium。插件不下载浏览器。
 
-## 构建、测试、安装
+## 安装：使用成品包
+
+**请不要在插件安装框中填本仓库的 GitHub 首页地址。** 源码仓库含开发构建脚本，pnpm 11 会要求额外的 Git 构建授权并报 `ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED`。
+
+1. 在 [Releases](https://github.com/dataelement/dsh-browser-plugin/releases) 下载 `dsh-page-review-0.4.3.tgz`。
+2. 在 DSH 插件安装框中填该文件的本机绝对路径，例如 `/Users/你的用户名/Downloads/dsh-page-review-0.4.3.tgz`；Windows 使用实际的完整路径。宿主支持直接访问的公开 `.tgz` 下载链接时，也可填该链接。
+3. 安装成功后启用插件，在右侧 **+ → 浏览器** 打开。宿主仍需满足上文的兼容要求。
+
+仓库为私有时，请先通过已登录的 GitHub 浏览器下载文件，再使用本地路径；不要把需要登录的下载链接直接交给 DSH。成品包已包含后端、客户端及许可证，无运行时依赖，也无需在目标 Profile 放开 Git 构建脚本。
+
+## 开发构建与验证
 
 ```sh
 npm ci
@@ -26,7 +36,7 @@ npm test
 npm pack
 ```
 
-在满足兼容要求的 DSH 中，用插件管理器安装生成的 `dsh-page-review-0.4.2.tgz` 并启用，重启后选择右侧 **+ → 浏览器**。插件是可选项，不默认启用。
+在满足兼容要求的 DSH 中，用插件管理器安装生成的 `dsh-page-review-0.4.3.tgz` 并启用，重启后选择右侧 **+ → 浏览器**。插件是可选项，不默认启用。
 
 开发时，可链接到明确指定的独立测试 Profile：
 

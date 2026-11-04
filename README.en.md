@@ -6,6 +6,12 @@ Saved comments appear above the composer as an annotation chip. Its non-modal po
 
 This package is **not installed or enabled by default**, and does not add a second Agent runtime. Session chat/mail plugins, local profiles, screenshots and user records are outside this contribution.
 
+## Install a prebuilt archive
+
+Download `dsh-page-review-0.4.3.tgz` from [Releases](https://github.com/dataelement/dsh-browser-plugin/releases). Paste its absolute local path in the DSH Plugin Manager. A directly accessible public tarball URL also works. For a private repository, download through an authenticated browser first and use the local file.
+
+Do not paste the repository homepage into the installer: Git dependencies need a development build, which pnpm 11 blocks unless explicitly approved. The release archive already contains the compiled backend/client and license notices. Installing it requires no Git build approval or runtime dependency installation. Host compatibility requirements below still apply.
+
 ## Build and test
 
 From the repository root:
@@ -41,7 +47,7 @@ The installer changes only this package's `link:` dependency, bundle selection a
 
 ## Compatibility seam and review boundary
 
-The incoming implementation was exercised in Desktop 0.12.0 / Harness 0.2.0-rc.2. Version 0.4.2 targets the repository's pinned Harness 0.2.1-rc.2. See the current-main validation record in [the validation record](docs/validation.md) for observed desktop behavior and validation limits; validation of the incoming prototype is not a substitute for that record.
+The incoming implementation was exercised in Desktop 0.12.0 / Harness 0.2.0-rc.2. Version 0.4.3 targets the repository's pinned Harness 0.2.1-rc.2. See the current-main validation record in [the validation record](docs/validation.md) for observed desktop behavior and validation limits; validation of the incoming prototype is not a substitute for that record.
 
 The only host patch addition is `data-dsh-composer-primary="send" | "stop"` on the existing primary button. It changes no slot, handler, permission or default rendering. `src/composer-compat.mjs` observes that marker and editor availability, rather than translated labels or generated class names. With pending annotations, the plugin presents its submit control at the send seat; while Stop is primary, its action stays visible and annotation submission is inline. Without the marker, submission is disabled. Native Enter interception is limited to an editable composer with pending annotations, plain input phase and available submission. This adapter is intentionally documented coupling, pending a native submission-extension API; remove it and the marker patch when that API exists.
 

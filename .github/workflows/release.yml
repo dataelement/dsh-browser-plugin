@@ -1,0 +1,28 @@
+name: Prebuilt plugin release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - name: Verify tag and pack
+        shell: bash
+        run: |
+          test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+          npm pack
+      - name: Publish installable archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: gh release create "$GITHUB_REF_NAME" dsh-page-review-*.tgz --verify-tag --title "$GITHUB_REF_NAME" --notes "Prebuilt archive for DSH Plugin Manager. Download the .tgz file; the repository URL is source code and requires a development build."
