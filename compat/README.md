@@ -1,22 +1,12 @@
-# 宿主兼容接缝
+# 宿主发送适配
 
-目标：`@deepseek-ai/dsh-client-ui-conversation@0.2.1-rc.2`。原生主按钮需增加：
+0.4.4 同时支持带显式标记的开发版和没有标记的正式版。目标接口：`@deepseek-ai/dsh-client-ui-conversation@0.2.1-rc.2`。
 
-```js
-"data-dsh-composer-primary": primaryStops ? "stop" : "send",
-```
+- 优先读取原生主按钮的 `data-dsh-composer-primary="send" | "stop"`。
+- 正式版没有标记时，使用宿主公开的 `locale.bind('conversation')`，读取 `input.send`、`input.send.queue`、`input.send.steer` 和 `input.stop`，匹配同一 `data-composer-card` 内的原生按钮 accessible name。排除插件自己的按钮，拒绝未知或重复入口。不依赖硬编码译文和 CSS 生成类名。
+- 识别到 Send 时，临时给它加插件私有标记以覆盖原生发送位置；卸载或没有待发批注时撤销。Stop 从不被覆盖。原生编辑器不可编辑时不允许发送批注。
+- Enter 与点击走同一发送链路，截图、元素证据、批注和已有输入／附件一起提交；收到接收回执后才清理对应草稿。未知宿主仍禁用批注发送。
 
-仅增加状态标记，不移动公共 slot、不改变原生处理器和权限。插件据此区分发送和停止；无标记时禁用批注发送。
+**正式版不需要打补丁。** `composer-primary.patch` 仅保留给使用相应版本的开发宿主作为可选显式标记；不要直接修改正式安装包或运行中的 immutable generation。
 
-在相应 DSH Desktop 开发仓库完成依赖安装和已有补丁重放后：
-
-```sh
-git apply --check /path/to/dsh-browser-plugin/compat/composer-primary.patch
-git apply /path/to/dsh-browser-plugin/compat/composer-primary.patch
-npx patch-package @deepseek-ai/dsh-client-ui-conversation
-# 按宿主规范重建、验证并启动 Desktop
-```
-
-检查失败时先核对版本或标记是否已存在，不强制覆盖。不直接修改正式安装包和运行中的 immutable generation。已含 PR #796 接缝的宿主不必重复应用。
-
-此处只带最小补丁；其他 Desktop 补丁仍由宿主维护。适配器集中在 `src/composer-compat.mjs`。上游提供等价公开提交 API 后，迁移适配器并移除该标记补丁。
+适配集中在 `src/composer-compat.mjs`。上游提供原生提交扩展 API 后应迁移并移除 DOM 适配。当前仅承诺已验证的宿主契约，不承诺任意未来版本。

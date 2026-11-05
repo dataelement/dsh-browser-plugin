@@ -35,6 +35,7 @@ const stores = new Map()
 let sessionsService,
   conversationService,
   sidebarService,
+  composerLocale,
   openBrowserLink,
   inputTriggersService
 const tabBridges = new Map()
@@ -1577,6 +1578,13 @@ function ComposerAnnotations({
     [anchor, setAnchor] = useState({}),
     [native, setNative] = useState({ inline: false, disabled: true })
   const popupId = React.useId()
+  const nativeLabels = {
+    send: ['input.send', 'input.send.queue', 'input.send.steer'].map((key) =>
+      composerLocale(key),
+    ),
+    stop: composerLocale('input.stop'),
+  }
+  const nativeLabelKey = JSON.stringify(nativeLabels)
   const clearLeave = () => {
     clearTimeout(leaveTimer.current)
     leaveTimer.current = null
@@ -1673,14 +1681,23 @@ function ComposerAnnotations({
   useEffect(() => {
     const card = seat.current?.closest('[data-composer-card]')
     if (!card || !state.notes.length) return
-    return observeComposer(seat.current, (next) =>
-      setNative((old) =>
-        old.inline === next.inline && old.disabled === next.disabled
-          ? old
-          : next,
-      ),
+    return observeComposer(
+      seat.current,
+      (next) =>
+        setNative((old) =>
+          old.inline === next.inline && old.disabled === next.disabled
+            ? old
+            : next,
+        ),
+      () => nativeLabels,
     )
-  }, [sessionId, Boolean(state.notes.length), input?.phase, session?.removed])
+  }, [
+    sessionId,
+    Boolean(state.notes.length),
+    input?.phase,
+    session?.removed,
+    nativeLabelKey,
+  ])
   if (!state.notes.length) return null
   const remove = async (note) => {
     try {
@@ -1855,6 +1872,7 @@ function ComposerAnnotations({
 
 export function apply(ctx) {
   configureLocale(ctx)
+  composerLocale = ctx.get('locale').bind('conversation')
   const slots = ctx.get('slots'),
     tabs = ctx.get('sidebarRightTabs'),
     sidebar = ctx.get('sidebarRight')

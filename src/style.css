@@ -995,7 +995,7 @@
   margin-top: 6px;
 }
 [data-composer-card]:has(.pr-composer-accessory)
-  [data-dsh-composer-primary='send'] {
+  [data-page-review-send] {
   visibility: hidden;
   pointer-events: none;
 }
